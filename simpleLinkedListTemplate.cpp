@@ -77,11 +77,11 @@ T List<T>::extractMax()
 	// if there are duplicates maximas in the list, return the leftmost one (the one closest to the _head)
 
 	// return immediately if there is only one item in the list
-	cout << "printing size: " << _size << endl;
 	if (_size == 1) {
+		auto temp = _head;
 		T output(_head->_item);
-		delete _head;
-		cout << output << endl;
+		removeHead();
+		_size = 0;
 		return output;
 	}
 
@@ -97,31 +97,32 @@ T List<T>::extractMax()
 		}
 		index++;
 	}
-
-	// access node just before the max in the list
+	 // access node just before the max in the list
 	ListNode<T> *beforeMaximum = _head;
 	for (int i = 0; i < maxIndex - 1; ++i) {
 		beforeMaximum = beforeMaximum->_next;
 	}
 
 
-	// point node before max to the node after max
-	
 
-	if (beforeMaximum == _head) { // edge case if the max item is the first in the list
-		_head = maximum->_next;
+	// point node before max to the node after max
+	if (maxIndex == 0) { // case if the max item is the first in the list
+		_head = _head->_next;
+
 	} else {
 		beforeMaximum->_next = maximum->_next;
 	}
 	// reduce size 
 	_size --;
+
+
+	
 	
 	// instantiate an output then delete maximum
 	T output(maximum->_item);
 	delete maximum;
 
 	// should we free up the memory to extract?
-	cout << "printing output from extractMax(): " << output << endl;
 	return output;
 }
 

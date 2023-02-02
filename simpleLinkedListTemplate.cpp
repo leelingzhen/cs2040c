@@ -1,4 +1,4 @@
-#pragma once
+#pragma once 
 
 #ifndef SIMPLELINKEDLISTTEMPLATEHPP
 #define SIMPLELINKEDLISTTEMPLATEHPP
@@ -92,12 +92,19 @@ T List<T>::extractMax()
 
 	// access node just before the max in the list
 	ListNode<T> *beforeMaximum = _head;
-	for (int i ; i < maxIndex - 1; ++i) {
+	for (int i = 0; i < maxIndex - 1; ++i) {
+		std::cout << "moved beforeMaximum. " << std::endl;
 		beforeMaximum = beforeMaximum->_next;
 	}
 
-	//point node before max to the node after max
-	beforeMaximum->_next = maximum->_next;
+
+	// point node before max to the node after max
+	// edge case if the max item is the first in the list
+	if (beforeMaximum == _head) {
+		_head = maximum->_next;
+	} else {
+		beforeMaximum->_next = maximum->_next;
+	}
 	
 	// instantiate an output then delete maximum
 	T output(maximum->_item);

@@ -49,13 +49,11 @@ void testIntLL()
 
 	// code for testing extractHead()
 	// uncomment this code after you finished extractHead()
-/* 
 	cout << endl << "Here is the sorted list of number in decending order" << endl;
 	while (!l.empty())
 		cout << l.extractMax() << " " ;
 	cout << endl;
 
-	*/
 
 }
 
@@ -145,17 +143,17 @@ void testFoodSort()
 
 	cout << "The food Fish " << (!l_food.exist(Food("Fish",0)) ? "does not exist " : "exists ") << "in the list" << endl;
 	cout << "The food Banana " << (!l_food.exist(Food("Banana",0)) ? "does not exist " : "exists ") << "in the list" << endl;
-	cout << "The food Fish Soup" << (!l_food.exist(Food("Fish Soup",0)) ? "does not exist " : "exists ") << "in the list" << endl;
+	cout << "The food Fish Soup" << (!l_food.exist(Food("Fish Soup",0)) ? "does not exist " : " exists ") << "in the list" << endl;
 
 	cout << endl << "Here is the list of food stored, according to the list order from head to tail:" << endl;
 	l_food.print(true);
 
 	cout << endl << "The sorted list of food in decending order is: " << endl;
 	// uncomment this code after you finished extractHead()
-	/*
+	
 	while (!l_food.empty())
 		cout << l_food.extractMax() << endl;
-*/
+
 	cout << endl;
 } 
 

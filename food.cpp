@@ -11,7 +11,9 @@ Food::Food(string s, int cal)
 Food Food:: operator+(const Food& f)
 {
 	// modify this function
-	return Food();
+	string foodName = _name + " " + f._name;
+	int foodCal = _cal + f._cal;
+	return Food(foodName, foodCal);
 }
 
 

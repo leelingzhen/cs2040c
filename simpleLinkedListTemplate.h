@@ -13,7 +13,7 @@ private:
 public:
 	ListNode(T);
 	T content() { return _item; };
-	void print() { cout << _item; };
+	void print() { std::cout << _item; };
 	friend class List<T>;
 };
 
@@ -30,6 +30,8 @@ public:
 	List()	{	_size = 0;	_head = NULL;};
 
 	~List();
+
+	// functions to implement 
 	void insertHead(T);
 	void print(bool withNL = false); // print the items in one single row if false, otherwise, print each item in a new line
 	int size() { return _size; };

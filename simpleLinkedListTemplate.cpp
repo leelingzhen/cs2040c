@@ -54,7 +54,12 @@ void List<T>::print(bool withNL) {
 template <class T>
 bool List<T>::exist(T n) {
 
-	// modify this
+	// implementing linear search to check if item exists
+	for (auto listNodePtr = _head; listNodePtr != NULL; listNodePtr = listNodePtr->_next) {
+		if (listNodePtr->_item == n) {
+			return true;
+		}
+	}
 	return false; 
 }
 
@@ -70,7 +75,36 @@ T List<T>::extractMax()
 {
 
 	// if there are duplicates maximas in the list, return the leftmost one (the one closest to the _head)
-	return T();
+
+	//first determine position and max item
+	
+	ListNode<T> *maximum = _head;
+	int index = 0;
+	int maxIndex = 0;
+
+	for (ListNode<T>* listNodePtr = _head; listNodePtr != NULL; listNodePtr = listNodePtr->_next) {
+		if (listNodePtr->_item > maximum->_item) {
+			maximum = listNodePtr;
+			maxIndex = index;
+		}
+		index++;
+	}
+
+	// access node just before the max in the list
+	ListNode<T> *beforeMaximum = _head;
+	for (int i ; i < maxIndex - 1; ++i) {
+		beforeMaximum = beforeMaximum->_next;
+	}
+
+	//point node before max to the node after max
+	beforeMaximum->_next = maximum->_next;
+	
+	// instantiate an output then delete maximum
+	T output(maximum->_item);
+	delete maximum;
+
+	// should we free up the memory to extract?
+	return output;
 }
 
 template <class T>

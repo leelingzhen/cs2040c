@@ -7,6 +7,7 @@ private:
 	string _name;
 	int _cal;
 public:
+	// default variables
 	Food() { _name = ""; _cal = 0; };
 	Food(string, int);
 	Food operator+(const Food&);

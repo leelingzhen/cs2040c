@@ -54,6 +54,15 @@ void testIntLL()
 		cout << l.extractMax() << " " ;
 	cout << endl;
 
+	List<float> l_float;
+
+	l_float.insertHead(0.9);
+	l_float.insertHead(1.1);
+	l_float.insertHead(15);
+
+	std::cout << "Testing float function exists" << endl;
+	std::cout << "The float" << 0.9 << " is " << (l_float.exist(0.9) ? "" : "not ") << "in the array" << endl;
+
 
 }
 

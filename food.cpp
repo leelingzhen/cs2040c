@@ -24,7 +24,7 @@ bool Food:: operator>(const Food& f)
 
 bool Food:: operator==(const Food& f)
 {
-	return true;
+	return _name.compare(f._name) == 0;
 }
 
 

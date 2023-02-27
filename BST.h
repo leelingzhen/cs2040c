@@ -32,8 +32,8 @@ protected:
 	void _preOrderPrint(TreeNode<T>*);
 	TreeNode<T>* _rightRotation(TreeNode<T>*);
 	TreeNode<T>* _leftRotation(TreeNode<T>*);
-	TreeNode<T>* _searchMax(TreeNode<T>*);
-	TreeNode<T>* _searchMin(TreeNode<T>*);
+	T _searchMax(TreeNode<T>*);
+	T _searchMin(TreeNode<T>*);
 	TreeNode<T>* _search(TreeNode<T>*, T);
 	void _destroySubTree(TreeNode<T>*);
 
@@ -46,8 +46,8 @@ public:
 	void inOrderPrint();
 	void postOrderPrint();
 	void preOrderPrint();
-	T searchMax() { return T(); }; 
-	T searchMin() { return T(); };
+	T searchMax(); 
+	T searchMin();
 	bool exist(T x) { return T(); };
 	T search(T x) { return T(); };
 	T successor(T);
@@ -203,16 +203,30 @@ TreeNode<T>* BinarySearchTree<T>::_insert(TreeNode<T>* current, T x) {
 	return current;
 
 }
-
 template <class T>
-TreeNode<T>* BinarySearchTree<T>::_searchMax(TreeNode<T>* current) {
-	return current;
+T BinarySearchTree<T>::searchMax() {
+	return _searchMax(_root);
 }
 
+template <class T>
+T BinarySearchTree<T>::_searchMax(TreeNode<T>* current) {
+	if (current->_right == NULL) {
+		return current->_item;
+	}
+	_searchMax(current->_right);
+}
 
 template <class T>
-TreeNode<T>* BinarySearchTree<T>::_searchMin(TreeNode<T>* current) {
-	return current;
+T BinarySearchTree<T>::searchMin() {
+	return _searchMin(_root);
+}
+
+template <class T>
+T BinarySearchTree<T>::_searchMin(TreeNode<T>* current) {
+	if (current->_left == NULL) {
+		return current->_item;
+	}
+	_searchMin(current->_left);
 }
 
 template <class T>

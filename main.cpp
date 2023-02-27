@@ -14,9 +14,9 @@ void excerciseTest(bool printWithHeight = true);
 int main() {
 
 	testInsertion1(true);
-	//testExist();
+	testExist();
 	testSearchMinMax();
-	//testSuccessor();
+	testSuccessor();
 	//testInsertion2(true);
 
 	excerciseTest();
@@ -77,11 +77,11 @@ void testExist() {
 	cout << "Numbers inserted in the tree: ";
 	for (int i = 0; i < 11; i++)
 	{
-		cout << i * 6 << " ";
-		bsti.insert(i * 6);
+		cout << i << " ";
+		bsti.insert(i);
 	}
 
-	//	bsti.printTree(false);
+	// bsti.printTree(true);
 	cout << endl << endl;
 
 	for (int i = 0; i < 70; i += 8)
@@ -136,7 +136,7 @@ void testSuccessor() {
 		bsti.insert(i * 7);
 	}
 
-//	bsti.printTree(false);
+	bsti.printTree(false);
 	cout << endl << endl;
 
 	for (int i = 0; i < 70; i+=10)

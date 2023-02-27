@@ -48,12 +48,18 @@ public:
 	void preOrderPrint();
 	T searchMax(); 
 	T searchMin();
-	bool exist(T x) { return T(); };
+	bool exist(T x);
 	T search(T x) { return T(); };
 	T successor(T);
 
 };
 
+template <class T>
+bool BinarySearchTree<T>::exist(T x) {
+	TreeNode<T>* search_node = _search(_root, x);
+	
+	return search_node->_item == x;
+}
 
 
 template <class T>
@@ -195,10 +201,7 @@ TreeNode<T>* BinarySearchTree<T>::_insert(TreeNode<T>* current, T x) {
 	if (current->_right) {
 		right_height = current->_right->_height;
 	}
-
 	current->_height = max(left_height, right_height) + 1;
-
-
 
 	return current;
 
@@ -213,7 +216,7 @@ T BinarySearchTree<T>::_searchMax(TreeNode<T>* current) {
 	if (current->_right == NULL) {
 		return current->_item;
 	}
-	_searchMax(current->_right);
+	return _searchMax(current->_right);
 }
 
 template <class T>
@@ -226,19 +229,63 @@ T BinarySearchTree<T>::_searchMin(TreeNode<T>* current) {
 	if (current->_left == NULL) {
 		return current->_item;
 	}
-	_searchMin(current->_left);
+	return _searchMin(current->_left);
 }
 
 template <class T>
 TreeNode<T>* BinarySearchTree<T>::_search(TreeNode<T>* current, T x) {
-	return NULL;
+	TreeNode<T>* node = current;
+	TreeNode<T>* parent;
+
+	while (node) {
+		parent = node;
+		if (x < node->_item){
+			node = node->_left;	
+		} else if (x > node->_item) {
+			node = node->_right;
+		} else if (node->_item == x) {
+			return node;
+		}
+	}
+
+	return parent;
 }
 
 
 template <class T>
 T BinarySearchTree<T>::successor(T x)
 {
-	return T();
+	TreeNode<T>* search_node = _search(_root, x);
+
+	// if the item searched is greater than the target x , we found the successor
+	if (search_node->_item > x) {
+		return search_node->_item;
+	
+
+	// if the item found is == target x, and there is a right subtree we have to find the minimum in the right tree
+	} else if (search_node->_item == x and search_node->_right){
+		TreeNode<T>* node = search_node->_right;
+		while (node->_left) {
+			node = node->_left;
+		}
+		return node->_item;
+
+	// we have to find the successor, we know for sure search node is in the tree
+	// we just have to find the lowest ancestor that goes left
+	} else {
+		TreeNode<T>* node = _root;
+		TreeNode<T>* successor;
+		while (node->_item != search_node->_item) {
+			if (search_node->_item > node->_item) {
+				node = node->_right;
+			} else if (search_node->_item < node->_item) {
+				successor = node;
+				node = node->_left;
+			}
+		}
+		return successor->_item;
+	}
+
 }
 
 template <class T>

@@ -1,234 +1,145 @@
-#include <iostream>
-#include "simpleLinkedListTemplate.h"
-#include "food.h"
-using namespace std;
+#include "BST.h"
 
 
-void testIntLL();
-void testFoodOpGreaterThan();
-void testFoodSort();
-void testReverseOp();
-void testFoodExist();
-void testFoodAddition();
-void testIntLLExtractMax();
+void testInsertion1(bool printWithHeight = true);
+void testInsertion2(bool printWithHeight = true);
+void testSuccessor();
+void testSearchMinMax();
+void testExist();
+void suggestedHiddenCase1();
+void suggestedHiddenCase1b();
+void suggestedHiddenCase2();
+void excerciseTest(bool printWithHeight = true);
 
-int main()
-{
+int main() {
 
-	testIntLL();
-	testFoodExist();
-	testFoodOpGreaterThan();
-	testFoodAddition();
-	testIntLLExtractMax();
-	testFoodSort();
-	testReverseOp();
+	testInsertion1(true);
+	//testExist();
+	//testSearchMinMax();
+	//testSuccessor();
+	//testInsertion2(true);
 
-	return 0;
-}
-
-void testIntLL()
-{
-	List<int> l;
-
-	cout << endl << "Testing List<int>" << endl;
-
-	// testing code for LinkedList<int>
-	l.insertHead(123);
-	l.insertHead(11);
-	l.insertHead(9);
-	l.insertHead(1);
-	l.insertHead(20);
-
-	cout << "This is the linked list we have:" << endl;
-	l.print(false);
-
-	cout << endl << "Testing the function exist()" << endl;
-	int testArr[] = { 10,20,30,40,50 };
-	for (int i = 0; i < 5; i++)
-		cout << "The number " << testArr[i] << " is " << (l.exist(testArr[i]) ? "" : "not ") << "in the array" << endl;
-
-	// code for testing extractHead()
-	// uncomment this code after you finished extractHead()
-	cout << endl << "Here is the sorted list of number in decending order" << endl;
-	while (!l.empty())
-		cout << l.extractMax() << " " ;
-	cout << endl;
-
-	List<float> l_float;
-
-	l_float.insertHead(0.9);
-	l_float.insertHead(1.1);
-	l_float.insertHead(15);
-
-	std::cout << "Testing float function exists" << endl;
-	std::cout << "The float" << 0.9 << " is " << (l_float.exist(0.9) ? "" : "not ") << "in the array" << endl;
-
+	excerciseTest();
 
 }
 
-void testFoodOpGreaterThan()
-{
+void excerciseTest(bool printWithHeight) {
 
-	cout << endl << "Testing operator \">\" for class Food" << endl;
-	List<Food> l_food;
+	cout << "Insertion Test 1" << endl;
+	int array[] = { 7, 3, 1, 0, 2, 5, 4, 6, 11, 9, 8, 10, 13, 12, 14 };
+	BinarySearchTree<int> bsti;
+	for (int i = 0; i < 15; i++)
+		bsti.insert(array[i]);
 
-	// code for testing the operator ">" on Food
-	Food food1("Salad", 100);
-	Food food2("French Fries", 10000);
+	bsti.printTree(printWithHeight);
+	cout << endl << endl;
+	cout << "The size of the tree is " << bsti.size() << endl;
+	cout << "Pre-order Traversal:" << endl;
+	bsti.preOrderPrint();
+	cout << "In-order Traversal:" << endl;
+	bsti.inOrderPrint();
+	cout << "Post-order Traversal:" << endl;
+	bsti.postOrderPrint();
 
-	cout << "Among " << food1.name() << " and " << food2.name() << "..." << endl;
-	cout << "The food with more calories is ";
-	cout << (food1 > food2 ? food1 : food2) << endl;
-
+	cout << endl << endl;
 }
 
-void testFoodExist()
-{
-	cout << endl << "Testing exist for List<Food>" << endl;
-	List<Food> l_food;
+void testInsertion1(bool printWithHeight) {
 
+	cout << "Insertion Test 1" << endl;
+	int array[] = { 7, 3, 1, 0, 2, 5, 4, 6, 11, 9, 8, 10, 13, 12, 14 };
+	BinarySearchTree<int> bsti;
+	for (int i = 0; i < 15; i++)
+		bsti.insert(array[i]);
 
-	// code for LinkedList<Food>
-	l_food.insertHead(Food("Beef", 300));
-	l_food.insertHead(Food("Rice", 500));
-	l_food.insertHead(Food("Chocolate", 200));
-	l_food.insertHead(Food("Pork Chop", 150));
-	l_food.insertHead(Food("Chicken Chop", 100));
-	l_food.insertHead(Food("Salad", 50));
-	l_food.insertHead(Food("Fish", 100));
-	l_food.insertHead(Food("Veggies", 100));
-	l_food.insertHead(Food("Soup", 50));
+	bsti.printTree(printWithHeight);
+	cout << endl << endl;
+	cout << "The size of the tree is " << bsti.size() << endl;
+	cout << "Pre-order Traversal:" << endl;
+	bsti.preOrderPrint();
+	cout << "In-order Traversal:" << endl;
+	bsti.inOrderPrint();
+	cout << "Post-order Traversal:" << endl;
+	bsti.postOrderPrint();
 
-	cout << "The food \"Fish\" " << (!l_food.exist(Food("Fish", 0)) ? "does not exist " : "exists ") << "in the list" << endl;
-	cout << "The food \"Banana\" " << (!l_food.exist(Food("Banana", 0)) ? "does not exist " : "exists ") << "in the list" << endl;
-	cout << "The food \"Fish Soup\" " << (!l_food.exist(Food("Fish Soup", 0)) ? "does not exist " : "exists ") << "in the list" << endl;
+	cout << "Level order traversal" << endl;
+	//bsti.LOT();
 
+	cout << endl << endl;
 
-}
-
-void testIntLLExtractMax()
-{
-	List<int> l;
-
-	cout << endl << "Testing Extract Maximum for List<int>" << endl;
-
-	// testing code for LinkedList<int>
-	l.insertHead(123);
-	l.insertHead(11);
-	l.insertHead(9);
-	l.insertHead(1);
-	l.insertHead(20);
-
-	cout << "This is the linked list we have:" << endl;
-	l.print(false);
-
-	cout << endl << "After one extractMax()" << endl;
-	l.extractMax();
-	l.print(false);
-
-	cout << endl << "After another one extractMax()" << endl;
-	l.extractMax();
-	l.print(false);
-
-
-
-}
-
-void testFoodSort()
-{
-	cout << endl << "Testing extractMax() for class Food" << endl;
-	List<Food> l_food;
-
-	// code for LinkedList<Food>
-	l_food.insertHead(Food("Beef", 300));
-	l_food.insertHead(Food("Rice", 500));
-	l_food.insertHead(Food("Chocolate", 200));
-	l_food.insertHead(Food("Pork Chop", 150));
-	l_food.insertHead(Food("Chicken Chop", 100));
-	l_food.insertHead(Food("Salad", 50));
-	l_food.insertHead(Food("Fish", 100));
-	l_food.insertHead(Food("Veggies", 100));
-	l_food.insertHead(Food("Soup", 50));
-
-	cout << "The food Fish " << (!l_food.exist(Food("Fish",0)) ? "does not exist " : "exists ") << "in the list" << endl;
-	cout << "The food Banana " << (!l_food.exist(Food("Banana",0)) ? "does not exist " : "exists ") << "in the list" << endl;
-	cout << "The food Fish Soup" << (!l_food.exist(Food("Fish Soup",0)) ? "does not exist " : " exists ") << "in the list" << endl;
-
-	cout << endl << "Here is the list of food stored, according to the list order from head to tail:" << endl;
-	l_food.print(true);
-
-	cout << endl << "The sorted list of food in decending order is: " << endl;
-	// uncomment this code after you finished extractHead()
 	
-	while (!l_food.empty())
-		cout << l_food.extractMax() << endl;
+}
 
+void testExist() {
+
+	cout << "Exist Test" << endl;
+	BinarySearchTree<int> bsti;
+	cout << "Numbers inserted in the tree: ";
+	for (int i = 0; i < 11; i++)
+	{
+		cout << i * 6 << " ";
+		bsti.insert(i * 6);
+	}
+
+	//	bsti.printTree(false);
+	cout << endl << endl;
+
+	for (int i = 0; i < 70; i += 8)
+		cout << "The number " << i << (bsti.exist(i) ? " exists " : " does not exist ") << "in the tree" << endl;
+	cout << endl << endl;
+}
+
+void testInsertion2(bool printWithHeight) {
+
+	cout << "Insertion Test 2" << endl;
+	cout << "The tree shape should be the same as Test 1" << endl;
+	cout << "if you have done the balancing correctly." << endl;
+	BinarySearchTree<int> bsti;
+	for (int i = 0; i < 15; i++)
+		bsti.insert(i);
+
+	bsti.printTree(printWithHeight);
+	cout << endl << endl;
+	cout << "The size of the tree is " << bsti.size() << endl;
+	cout << "Pre-order Traversal:" << endl;
+	bsti.preOrderPrint();
+	cout << "In-order Traversal:" << endl;
+	bsti.inOrderPrint();
+	cout << "Post-order Traversal:" << endl;
+	bsti.postOrderPrint();
+
+	cout << endl << endl;
+}
+
+void testSearchMinMax() {
+
+	cout << "Search Min/Max Test" << endl;
+	int array[] = { 7, 3, 1, 0, 2, 5, 4, 6, 11, 9, 8, 10, 13, 12, 14 };
+	BinarySearchTree<int> bsti;
+	for (int i = 0; i < 15; i++)
+		bsti.insert(array[i]);
+
+	cout << "The minimum number in the tree is " << bsti.searchMin() << endl;
+	cout << "The maximum number in the tree is " << bsti.searchMax() << endl;
 	cout << endl;
-} 
-
-void testReverseOp()
-{
-	List<int> l;
-
-	cout << endl << "Testing reverseOp()" << endl;
-
-
-	// testing code for LinkedList<int>
-	l.insertHead(123);
-	l.insertHead(11);
-	l.insertHead(9);
-	l.insertHead(1);
-	l.insertHead(20);
-
-	cout << "This is the linked list we have:" << endl;
-	l.print(false);
-
-
-	l.reverseOp();
-	cout << "This is the linked list after reverseOp():" << endl;
-	l.print(false);
-
-	l.reverseOp();
-	cout << "This is the linked list after reverseOp() again:" << endl;
-	l.print(false);
-
-	l.reverseOp();
-	cout << "This is the linked list after reverseOp() again and again" << endl;
-	l.print(false);
-
-	l.reverseOp();
-	cout << "This is the linked list after reverseOp() again and again and again" << endl;
-	l.print(false);
 
 }
 
-void testFoodAddition() {
+void testSuccessor() {
 
-	cout << endl << "Testing operator \"+\" for class Food" << endl;
-	List<Food> l_food;
+	cout << "Successor Test" << endl;
+	BinarySearchTree<int> bsti;
+	cout << "Numbers inserted in the tree: ";
+	for (int i = 0; i < 11; i++)
+	{
+		cout << i * 7 << " ";
+		bsti.insert(i * 7);
+	}
 
-	// code for testing the operator ">" on Food
-	Food food1("Salad", 100);
-	Food food2("Chicken", 200);
-	Food food3("Curry", 40);
-	Food food4("Ice Cream", 300);
+//	bsti.printTree(false);
+	cout << endl << endl;
 
-	Food food23 = food2 + food3;
-	Food food21 = food2 + food1;
-	Food food31 = food3 + food1;
-	Food foodALL = food3 + food2 + food4 + food4;
-
-	l_food.insertHead(food1);
-	l_food.insertHead(food2);
-	l_food.insertHead(food3);
-	l_food.insertHead(food4);
-	l_food.insertHead(food23);
-	l_food.insertHead(food21);
-	l_food.insertHead(food31);
-	l_food.insertHead(foodALL);
-
-	l_food.print(true);
-
-
+	for (int i = 0; i < 70; i+=10)
+		cout << "The successor of " << i << " in the BST is " << bsti.successor(i) << endl;
+	cout << endl << endl;
 }
-

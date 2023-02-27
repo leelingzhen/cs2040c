@@ -1,2 +1,2 @@
-main: simpleLinkedListTemplate.cpp main.cpp food.cpp
-	g++ simpleLinkedListTemplate.cpp main.cpp food.cpp -o main
+main: main.cpp 
+	g++ main.cpp -o main

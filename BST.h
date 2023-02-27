@@ -127,26 +127,45 @@ BinarySearchTree<T> :: ~BinarySearchTree()
 
 template <class T>
 void BinarySearchTree<T>::inOrderPrint() {
+	_inOrderPrint(_root);
+	std::cout << std::endl;
 }
 
 
 template <class T>
 void BinarySearchTree<T>::_inOrderPrint(TreeNode<T>* node) {
+	if (node == NULL) {
+		return;
+	}
+	_inOrderPrint(node->_left);
+	std::cout << node->_item << " ";
+	_inOrderPrint(node->_right);
 }
 
 
 template <class T>
 void BinarySearchTree<T>::postOrderPrint() {
+	_postOrderPrint(_root);
+	std::cout << std::endl;
 }
 
 
 template <class T>
 void BinarySearchTree<T>::_postOrderPrint(TreeNode<T>* node) {
+	if (node == NULL) {
+		return;
+	}
+	_postOrderPrint(node->_left);
+	_postOrderPrint(node->_right);
+	std::cout << node->_item << " ";
 }
 
 template <class T>
 TreeNode<T>* BinarySearchTree<T>::_insert(TreeNode<T>* current, T x) {
-
+	// function uses some sort of inOrder traversal (DFS) to insert nodes
+	
+	int left_height = 0;
+	int right_height = 0;
 
 	if (current->_item > x)
 	{
@@ -169,6 +188,17 @@ TreeNode<T>* BinarySearchTree<T>::_insert(TreeNode<T>* current, T x) {
 	}
 	else
 		return current; // When the node already existed in the tree
+	if (current->_left) {
+		left_height = current->_left->_height;
+	}
+
+	if (current->_right) {
+		right_height = current->_right->_height;
+	}
+
+	current->_height = max(left_height, right_height) + 1;
+
+
 
 	return current;
 

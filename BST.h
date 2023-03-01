@@ -54,8 +54,8 @@ public:
 	bool exist(T x);
 	T search(T x) { return T(); };
 	T successor(T);
-	bool is_balanced(TreeNode<T>* );
-	bool is_balanced();
+	int is_balanced(TreeNode<T>* );
+	int is_balanced();
 
 };
 
@@ -315,6 +315,14 @@ template <class T>
 TreeNode<T>* BinarySearchTree<T>::_leftBalance(TreeNode<T>* node){
 	// this function will balance the tree when the left subtree is 
 	// left heavy
+	TreeNode<T>* left_tree;
+	TreeNode<T>* right_tree;
+	if (node.left) {
+		left_tree = node.left;
+	}
+	if (node.right) {
+		right_tree = node.left;
+	}
 
 }
 
@@ -325,7 +333,10 @@ TreeNode<T>* BinarySearchTree<T>::_rightBalance(TreeNode<T>* node) {
 }
 
 template<class T>
-bool BinarySearchTree<T>::is_balanced(TreeNode<T>* node){
+int BinarySearchTree<T>::is_balanced(TreeNode<T>* node){
+	// function will output the balance of the tree
+	//  -ve -> left heavy
+	//  +ve -> right heavy
 	int left_height = 0;
 	int right_height = 0;
 	if (node->_left) {
@@ -334,15 +345,11 @@ bool BinarySearchTree<T>::is_balanced(TreeNode<T>* node){
 	if (node->_right) {
 		right_height = node->_right->_height;
 	}
-	if (std::abs(left_height - right_height) > 2) {
-		return false;
-	} else {
-		return true;
-	}
+	return left_height - right_height;
 }
 
 template<class T>
-bool BinarySearchTree<T>::is_balanced() {
+int BinarySearchTree<T>::is_balanced() {
 	return is_balanced(_root);
 }
 	

@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <cmath>
 using namespace std;
 
 template <class T>
@@ -36,6 +37,8 @@ protected:
 	T _searchMin(TreeNode<T>*);
 	TreeNode<T>* _search(TreeNode<T>*, T);
 	void _destroySubTree(TreeNode<T>*);
+	TreeNode<T>* _leftBalance(TreeNode<T>*);
+	TreeNode<T>* _rightBalance(TreeNode<T>*);
 
 public:
 	BinarySearchTree() { _root = NULL; _size = 0; }
@@ -51,6 +54,8 @@ public:
 	bool exist(T x);
 	T search(T x) { return T(); };
 	T successor(T);
+	bool is_balanced(TreeNode<T>* );
+	bool is_balanced();
 
 };
 
@@ -291,11 +296,53 @@ T BinarySearchTree<T>::successor(T x)
 template <class T>
 TreeNode<T>* BinarySearchTree<T>::_leftRotation(TreeNode<T>* node)
 {
-	return node;
+	TreeNode<T>* new_root = node.right;
+	node.right = new_root.left;
+	new_root.left = node;
+	return new_root;
 }
 
 template <class T>
 TreeNode<T>* BinarySearchTree<T>::_rightRotation(TreeNode<T>* node)
 {
-	return node;
+	TreeNode<T>* new_root = node.left;
+	node.left = new_root.right;
+	new_root.right = node;
+	return new_root;
 }
+
+template <class T>
+TreeNode<T>* BinarySearchTree<T>::_leftBalance(TreeNode<T>* node){
+	// this function will balance the tree when the left subtree is 
+	// left heavy
+
+}
+
+template<class T>
+TreeNode<T>* BinarySearchTree<T>::_rightBalance(TreeNode<T>* node) {
+	// this functil will balance the tree when the right subtree is
+	// right heavy
+}
+
+template<class T>
+bool BinarySearchTree<T>::is_balanced(TreeNode<T>* node){
+	int left_height = 0;
+	int right_height = 0;
+	if (node->_left) {
+		left_height = node->_left->_height;
+	}
+	if (node->_right) {
+		right_height = node->_right->_height;
+	}
+	if (std::abs(left_height - right_height) > 2) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
+template<class T>
+bool BinarySearchTree<T>::is_balanced() {
+	return is_balanced(_root);
+}
+	

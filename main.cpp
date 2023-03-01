@@ -86,6 +86,7 @@ void testExist() {
 
 	for (int i = 0; i < 70; i += 8)
 		cout << "The number " << i << (bsti.exist(i) ? " exists " : " does not exist ") << "in the tree" << endl;
+	std::cout<< "The tree is balanced: " << bsti.is_balanced() << std::endl;
 	cout << endl << endl;
 }
 
@@ -136,7 +137,7 @@ void testSuccessor() {
 		bsti.insert(i * 7);
 	}
 
-	bsti.printTree(false);
+	bsti.printTree(true);
 	cout << endl << endl;
 
 	for (int i = 0; i < 70; i+=10)

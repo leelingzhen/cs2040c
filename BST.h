@@ -39,6 +39,7 @@ protected:
 	void _destroySubTree(TreeNode<T>*);
 	TreeNode<T>* _leftBalance(TreeNode<T>*);
 	TreeNode<T>* _rightBalance(TreeNode<T>*);
+	TreeNode<T>* _balance_tree(TreeNode<T>*);
 
 public:
 	BinarySearchTree() { _root = NULL; _size = 0; }
@@ -49,7 +50,6 @@ public:
 	void inOrderPrint();
 	void postOrderPrint();
 	void preOrderPrint();
-	void balance_tree(TreeNode<T>*);
 	T searchMax(); 
 	T searchMin();
 	bool exist(T x);
@@ -109,22 +109,21 @@ void BinarySearchTree<T>::preOrderPrint() {
 }
 
 template <class T>
-void BinarySearchTree<T>::balance_tree(TreeNode<T>* node ){
-	// cout << "inside balance_tree function " ;
-	// cout << "where _root is: " <<_root->_item; //<< " left is " << _root->_left->_item << " right is " << _root->_right->_item;
-	TreeNode<T>* temp;
+TreeNode<T>* BinarySearchTree<T>::_balance_tree(TreeNode<T>* node ){
+	cout << "inside balance_tree function " ;
+	cout << "where node is: " <<node->_item; //<< " left is " << _root->_left->_item << " right is " << _root->_right->_item;
+	TreeNode<T>* temp = node;
 	int tree_balance = balance(node);
-	// cout << " tree balance is : " << tree_balance ;
+	cout << " tree balance is : " << tree_balance ;
 	if (tree_balance > 1) {
 		temp = _leftBalance(node);
-		_root = temp;
-		// cout << " moved _root to left where _root is now: "<<_root->_item;
+		cout << " moved root left where root is now: "<<temp->_item;
 	} else if (tree_balance < -1) {
 		temp = _rightBalance(node);
-		_root = temp;
-		// cout << " moved _root to right where _root is now: "<< _root->_item ;
+		cout << " moved root to right where root is now: "<< temp->_item ;
 	}
-	// cout << endl;
+	cout << endl;
+	return temp;
 }
 
 
@@ -220,23 +219,24 @@ TreeNode<T>* BinarySearchTree<T>::_insert(TreeNode<T>* current, T x) {
 	else
 		return current; // When the node already existed in the tree
 	
-	// cout <<"current "<< current->_item<< " height " << current->_height << " left height: " << left_height << " right height: " << right_height << endl;
-	
-	
-	if (balance(_root) > 1 or balance(_root) < -1 ){
-		balance_tree(_root);
-	}
-
-	if (current->_left) {
-		left_height = current->_left->_height;
-	}
 	if (current->_right) {
+		current->_right = _balance_tree(current->_right);
 		right_height = current->_right->_height;
 	}
+	if (current->_left) {
+
+		current->_left = _balance_tree(current->_left);
+		left_height = current->_left->_height;
+	}
+	
 	current->_height = max(left_height, right_height) + 1;
 
+	cout <<"current "<< current->_item<< " height " << current->_height << " left height: " << left_height << " right height: " << right_height << endl;
+	// int tree_balance = left_height - right_height;
 
-
+	// if (tree_balance > 1) {
+	// } else if (tree_balance < -1){
+	// }
 
 	return current;
 
@@ -385,8 +385,8 @@ int BinarySearchTree<T>::balance(TreeNode<T>* node){
 	// function will output the balance of the tree
 	//  +ve -> left heavy
 	//  -ve -> right heavy
-	int left_height = 0;
-	int right_height = 0;
+	int left_height = -1;
+	int right_height = -1;
 	if (node->_left) {
 		left_height = node->_left->_height;
 	}

@@ -32,8 +32,6 @@ void excerciseTest(bool printWithHeight) {
 	{
 		bsti.insert(array[i]);
 	}
-	// bsti.insert(15);
-	// bsti.insert(16);
 
 	bsti.printTree(printWithHeight);
 	cout << endl << endl;
@@ -55,9 +53,10 @@ void testInsertion1(bool printWithHeight) {
 	BinarySearchTree<int> bsti;
 	for (int i = 0; i < 15; i++){
 		bsti.insert(array[i]);
-		cout << "added: " << array[i] << endl;
 	}
 
+	bsti.insert(15);
+	bsti.insert(16);
 	bsti.printTree(printWithHeight);
 	cout << endl << endl;
 	cout << "The size of the tree is " << bsti.size() << endl;

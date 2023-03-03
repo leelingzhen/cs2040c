@@ -1,4 +1,4 @@
-#pragma once
+#pragma oncj
 #include <iostream>
 #include <cmath>
 using namespace std;
@@ -49,13 +49,14 @@ public:
 	void inOrderPrint();
 	void postOrderPrint();
 	void preOrderPrint();
+	void balance_tree(TreeNode<T>*);
 	T searchMax(); 
 	T searchMin();
 	bool exist(T x);
 	T search(T x) { return T(); };
 	T successor(T);
-	int is_balanced(TreeNode<T>* );
-	int is_balanced();
+	int balance(TreeNode<T>* );
+	int balance();
 
 };
 
@@ -105,6 +106,25 @@ void BinarySearchTree<T>::preOrderPrint() {
 
 	_preOrderPrint(_root);
 	cout << endl;
+}
+
+template <class T>
+void BinarySearchTree<T>::balance_tree(TreeNode<T>* node ){
+	// cout << "inside balance_tree function " ;
+	// cout << "where _root is: " <<_root->_item; //<< " left is " << _root->_left->_item << " right is " << _root->_right->_item;
+	TreeNode<T>* temp;
+	int tree_balance = balance(node);
+	// cout << " tree balance is : " << tree_balance ;
+	if (tree_balance > 1) {
+		temp = _leftBalance(node);
+		_root = temp;
+		// cout << " moved _root to left where _root is now: "<<_root->_item;
+	} else if (tree_balance < -1) {
+		temp = _rightBalance(node);
+		_root = temp;
+		// cout << " moved _root to right where _root is now: "<< _root->_item ;
+	}
+	// cout << endl;
 }
 
 
@@ -199,14 +219,24 @@ TreeNode<T>* BinarySearchTree<T>::_insert(TreeNode<T>* current, T x) {
 	}
 	else
 		return current; // When the node already existed in the tree
+	
+	// cout <<"current "<< current->_item<< " height " << current->_height << " left height: " << left_height << " right height: " << right_height << endl;
+	
+	
+	if (balance(_root) > 1 or balance(_root) < -1 ){
+		balance_tree(_root);
+	}
+
 	if (current->_left) {
 		left_height = current->_left->_height;
 	}
-
 	if (current->_right) {
 		right_height = current->_right->_height;
 	}
 	current->_height = max(left_height, right_height) + 1;
+
+
+
 
 	return current;
 
@@ -296,47 +326,65 @@ T BinarySearchTree<T>::successor(T x)
 template <class T>
 TreeNode<T>* BinarySearchTree<T>::_leftRotation(TreeNode<T>* node)
 {
-	TreeNode<T>* new_root = node.right;
-	node.right = new_root.left;
-	new_root.left = node;
+	TreeNode<T>* new_root = node->_right;
+	int temp_height = node->_height;
+	node->_right= new_root->_left;
+	new_root->_left= node;
+
+	// swapping the old root height with new root height
+	node->_height = new_root->_height;
+	new_root->_height = temp_height;
+
 	return new_root;
 }
 
 template <class T>
 TreeNode<T>* BinarySearchTree<T>::_rightRotation(TreeNode<T>* node)
 {
-	TreeNode<T>* new_root = node.left;
-	node.left = new_root.right;
-	new_root.right = node;
+	TreeNode<T>* new_root = node->_left;
+	int temp_height = node->_height;
+	node->_left= new_root->_right;
+	new_root->_right = node;
+
+	// swapping the old root height with new root height
+	node->_height = new_root->_height;
+	new_root->_height = temp_height;
+
 	return new_root;
 }
 
 template <class T>
 TreeNode<T>* BinarySearchTree<T>::_leftBalance(TreeNode<T>* node){
 	// this function will balance the tree when the left subtree is 
-	// left heavy
-	TreeNode<T>* left_tree;
-	TreeNode<T>* right_tree;
-	if (node.left) {
-		left_tree = node.left;
+	// left heavy and will return the root node to the subtree
+	TreeNode<T>* new_root;
+	int tree_balance = balance(node->_left);
+	if (tree_balance < -1) {
+		node->_left = _leftRotation(node->_left);
 	}
-	if (node.right) {
-		right_tree = node.left;
-	}
-
+	
+	new_root = _rightRotation(node);
+	return new_root;
 }
 
 template<class T>
 TreeNode<T>* BinarySearchTree<T>::_rightBalance(TreeNode<T>* node) {
-	// this functil will balance the tree when the right subtree is
-	// right heavy
+	// this function will balance the tree when the right subtree is
+	// right heavy and return the head of the new subtree
+	TreeNode<T>* new_root;
+	int tree_balance = balance(node->_right);
+	if (tree_balance > 1){
+		node->_right = _rightRotation(node->_right);
+	}
+	new_root = _leftRotation(node);
+	return new_root;
 }
 
 template<class T>
-int BinarySearchTree<T>::is_balanced(TreeNode<T>* node){
+int BinarySearchTree<T>::balance(TreeNode<T>* node){
 	// function will output the balance of the tree
-	//  -ve -> left heavy
-	//  +ve -> right heavy
+	//  +ve -> left heavy
+	//  -ve -> right heavy
 	int left_height = 0;
 	int right_height = 0;
 	if (node->_left) {
@@ -349,7 +397,7 @@ int BinarySearchTree<T>::is_balanced(TreeNode<T>* node){
 }
 
 template<class T>
-int BinarySearchTree<T>::is_balanced() {
-	return is_balanced(_root);
+int BinarySearchTree<T>::balance() {
+	return balance(_root);
 }
 	

@@ -17,7 +17,7 @@ int main() {
 	testExist();
 	testSearchMinMax();
 	testSuccessor();
-	//testInsertion2(true);
+	testInsertion2(true);
 
 	excerciseTest();
 
@@ -29,7 +29,11 @@ void excerciseTest(bool printWithHeight) {
 	int array[] = { 7, 3, 1, 0, 2, 5, 4, 6, 11, 9, 8, 10, 13, 12, 14 };
 	BinarySearchTree<int> bsti;
 	for (int i = 0; i < 15; i++)
+	{
 		bsti.insert(array[i]);
+	}
+	// bsti.insert(15);
+	// bsti.insert(16);
 
 	bsti.printTree(printWithHeight);
 	cout << endl << endl;
@@ -49,8 +53,10 @@ void testInsertion1(bool printWithHeight) {
 	cout << "Insertion Test 1" << endl;
 	int array[] = { 7, 3, 1, 0, 2, 5, 4, 6, 11, 9, 8, 10, 13, 12, 14 };
 	BinarySearchTree<int> bsti;
-	for (int i = 0; i < 15; i++)
+	for (int i = 0; i < 15; i++){
 		bsti.insert(array[i]);
+		cout << "added: " << array[i] << endl;
+	}
 
 	bsti.printTree(printWithHeight);
 	cout << endl << endl;
@@ -86,7 +92,7 @@ void testExist() {
 
 	for (int i = 0; i < 70; i += 8)
 		cout << "The number " << i << (bsti.exist(i) ? " exists " : " does not exist ") << "in the tree" << endl;
-	std::cout<< "The tree is balanced: " << bsti.is_balanced() << std::endl;
+	std::cout<< "The tree is balanced: " << bsti.balance() << std::endl;
 	cout << endl << endl;
 }
 

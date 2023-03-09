@@ -18,7 +18,6 @@ int main() {
 	testSearchMinMax();
 	testSuccessor();
 	testInsertion2(true);
-
 	excerciseTest();
 
 }
@@ -55,8 +54,8 @@ void testInsertion1(bool printWithHeight) {
 		bsti.insert(array[i]);
 	}
 
-	bsti.insert(15);
 	bsti.insert(16);
+	bsti.insert(15);
 	bsti.printTree(printWithHeight);
 	cout << endl << endl;
 	cout << "The size of the tree is " << bsti.size() << endl;

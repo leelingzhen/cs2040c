@@ -1,4 +1,4 @@
-#pragma oncj
+#pragma once
 #include <iostream>
 #include <cmath>
 using namespace std;
@@ -27,6 +27,7 @@ protected:
 	void _printTree(int indent, TreeNode<T>*, bool withHeight);
 
 	// The following functions are optional for you to implement. 
+	int _getHeight(TreeNode<T>*);
 	TreeNode<T>*  _insert(TreeNode<T>* current, T x);
 	void _inOrderPrint(TreeNode<T>*);
 	void _postOrderPrint(TreeNode<T>*);
@@ -110,19 +111,13 @@ void BinarySearchTree<T>::preOrderPrint() {
 
 template <class T>
 TreeNode<T>* BinarySearchTree<T>::_balance_tree(TreeNode<T>* node ){
-	cout << "inside balance_tree function " ;
-	cout << "where node is: " <<node->_item; //<< " left is " << _root->_left->_item << " right is " << _root->_right->_item;
 	TreeNode<T>* temp = node;
 	int tree_balance = balance(node);
-	cout << " tree balance is : " << tree_balance ;
 	if (tree_balance > 1) {
 		temp = _leftBalance(node);
-		cout << " moved root left where root is now: "<<temp->_item;
 	} else if (tree_balance < -1) {
 		temp = _rightBalance(node);
-		cout << " moved root to right where root is now: "<< temp->_item ;
 	}
-	cout << endl;
 	return temp;
 }
 
@@ -194,8 +189,6 @@ template <class T>
 TreeNode<T>* BinarySearchTree<T>::_insert(TreeNode<T>* current, T x) {
 	// function uses some sort of inOrder traversal (DFS) to insert nodes
 	
-	int left_height = 0;
-	int right_height = 0;
 
 	if (current->_item > x)
 	{
@@ -218,25 +211,11 @@ TreeNode<T>* BinarySearchTree<T>::_insert(TreeNode<T>* current, T x) {
 	}
 	else
 		return current; // When the node already existed in the tree
-	
-	if (current->_right) {
-		current->_right = _balance_tree(current->_right);
-		right_height = current->_right->_height;
-	}
-	if (current->_left) {
 
-		current->_left = _balance_tree(current->_left);
-		left_height = current->_left->_height;
-	}
-	
-	current->_height = max(left_height, right_height) + 1;
 
-	cout <<"current "<< current->_item<< " height " << current->_height << " left height: " << left_height << " right height: " << right_height << endl;
-	// int tree_balance = left_height - right_height;
+	current = _balance_tree(current);
+	current->_height = _getHeight(current);
 
-	// if (tree_balance > 1) {
-	// } else if (tree_balance < -1){
-	// }
 
 	return current;
 
@@ -327,13 +306,12 @@ template <class T>
 TreeNode<T>* BinarySearchTree<T>::_leftRotation(TreeNode<T>* node)
 {
 	TreeNode<T>* new_root = node->_right;
-	int temp_height = node->_height;
 	node->_right= new_root->_left;
 	new_root->_left= node;
 
-	// swapping the old root height with new root height
-	node->_height = new_root->_height;
-	new_root->_height = temp_height;
+	// updating the heights of the new node
+	node->_height = _getHeight(node);
+	new_root->_height = _getHeight(new_root);
 
 	return new_root;
 }
@@ -342,13 +320,12 @@ template <class T>
 TreeNode<T>* BinarySearchTree<T>::_rightRotation(TreeNode<T>* node)
 {
 	TreeNode<T>* new_root = node->_left;
-	int temp_height = node->_height;
 	node->_left= new_root->_right;
 	new_root->_right = node;
 
-	// swapping the old root height with new root height
-	node->_height = new_root->_height;
-	new_root->_height = temp_height;
+	// updating the new heights of the nodes
+	node->_height = _getHeight(node);
+	new_root->_height = _getHeight(new_root);
 
 	return new_root;
 }
@@ -399,5 +376,18 @@ int BinarySearchTree<T>::balance(TreeNode<T>* node){
 template<class T>
 int BinarySearchTree<T>::balance() {
 	return balance(_root);
+}
+template<class T>
+int BinarySearchTree<T>::_getHeight(TreeNode<T>* node) {
+	int left = -1;
+	int right = -1;
+
+	if (node->_left) {
+		left = node->_left->_height;
+	}
+	if (node->_right) {
+		right = node->_right->_height;
+	}
+	return max(left, right) + 1;
 }
 	

@@ -1,30 +1,81 @@
 #pragma once
 #include <math.h>
-
+#include "heap.h"
 #include <iostream>
-using namespace std;
 
 #ifndef HEAPHPP
 #define HEAPHPP
 
+using namespace std;
+
+template <class T>
+int Heap<T>::_parent_index(int i) { 
+    return floor(i - 1) / 2;
+}
+
+template <class T>
+int Heap<T>::_larger_child_index (int i) {
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+    if (_heap[left] > _heap[right] and left < _n) {
+	return left;
+    } else if (_heap[right] >= _heap[left] and right < _n){
+	return right;
+    } else {
+	return -1;
+    }
+}
+
+template <class T>
+void Heap<T>::_swap (int i, int j) {
+    int temp = _heap[i];
+    _heap[i] = _heap[j];
+    _heap[j] = temp;
+}
+
+
 template <class T>
 void Heap<T>::_bubbleUp(int index) {
+    int parentIndex = _parent_index(index);
+    while (_heap[parentIndex] < _heap[index]){
+	// swapping parent with child nodes
+	_swap(parentIndex, index);
+	index = parentIndex;
+	parentIndex = _parent_index(index);
+    }
 
 }
 
 template <class T>
 void Heap<T>::_bubbleDown(int index) {
+    int child = _larger_child_index(index);
+
+    while (_heap[child] > _heap[index] and child != -1){
+	_swap(child, index);
+	index = child;
+	child = _larger_child_index(index);
+    }
 
 }
 
 template <class T>
 void Heap<T>::insert(T item) {
-
+    if (_n == DEFAULTHEAPSIZE) { 
+	std::cout << "heap max sized reached, unable to add element" << std::endl;
+	return;
+    }
+    int i = _n;
+    _heap[i] = item;
+    _bubbleUp(i);
+    _n ++;
 }
 
 template <class T>
 T Heap<T>::extractMax() {
-	return T();
+    T max_item = _heap[0];
+    deleteItem(max_item);
+    return max_item;
+
 }
 
 
@@ -48,20 +99,32 @@ int Heap<T>::_lookFor(T x){ // not a very good implementation, but just use this
 template <class T>
 void Heap<T>::decreaseKey(T from, T to)
 {
-
+    int pos = _lookFor(from);
+    _heap[pos] = to;
+    _bubbleDown(pos);
 }
 
 
 template <class T>
 void Heap<T>::increaseKey(T from, T to)
 {
-
+    int pos = _lookFor(from);
+    _heap[pos] = to;
+    _bubbleUp(pos);
 }
 
 template <class T>
 void Heap<T>::deleteItem(T x)
 {
-
+    int pos = _lookFor(x);
+    T last_item = _heap[_n -1];
+    _swap(pos, _n - 1);
+    _n --;
+    if (last_item < x) {
+	_bubbleDown(pos);
+    } else {
+	_bubbleUp(pos);
+    }
 }
 
 template <class T>

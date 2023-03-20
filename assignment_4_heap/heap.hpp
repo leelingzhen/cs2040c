@@ -28,7 +28,7 @@ int Heap<T>::_larger_child_index (int i) {
 
 template <class T>
 void Heap<T>::_swap (int i, int j) {
-    int temp = _heap[i];
+    T temp = _heap[i];
     _heap[i] = _heap[j];
     _heap[j] = temp;
 }

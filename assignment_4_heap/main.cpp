@@ -8,7 +8,7 @@ void customerQueueTest();
 
 int main() {
     heapTest();
-    //customerQueueTest(10);
+    customerQueueTest(10);
 
 }
 

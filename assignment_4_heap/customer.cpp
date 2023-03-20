@@ -9,6 +9,18 @@ bool Customer::operator>(const Customer& c) {
 	return comparisonWay ? processing_time < c.processing_time : arrival_time < c.arrival_time; // a customer is "greater" if his time is shorter
 };
 
+bool Customer::operator>=(const Customer& c){
+	return comparisonWay ? processing_time <= c.processing_time : arrival_time <= c.arrival_time; // a customer is "greater" if his time is shorter
+}
+
+bool Customer::operator<(const Customer& c) {
+	return comparisonWay ? processing_time > c.processing_time : arrival_time > c.arrival_time; 
+}
+
+bool Customer::operator==(const Customer& c) {
+	return comparisonWay ? processing_time == c.processing_time : arrival_time == c.arrival_time;
+}
+
 
 void customerQueueTest(int n_cust) {
 	int current_time = 0;
@@ -32,12 +44,14 @@ void customerQueueTest(int n_cust) {
 
 	for (int round = 0; round<2; round++) {
 		// you may need a big modification within this for-loop
+		// setup
 		cout << endl << endl;
 		cout << "Test Round " << round + 1 << endl;
 		cout << (round == 0 ? "First come first serve" : "Customer with the least PT served first") << endl;
 		comparisonWay = round;
 		current_time = 0;
 		totalWaitingTime = 0;
+
 		queue.insert(custList[0]);
 
 		cout << "Customer arrives at time " << custList[0].AT() << " with PT=" << custList[0].PT() << endl;

@@ -19,7 +19,6 @@ public:
     _n = 0;
   };
 
-  // int size() {return _n;};
   void insert(T);
   bool empty() { return _n == 0; };
   T extractMax();

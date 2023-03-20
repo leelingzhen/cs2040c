@@ -23,6 +23,7 @@ bool Customer::operator==(const Customer& c) {
 
 
 void customerQueueTest(int n_cust) {
+	int last_process_time;
 	int current_time = 0;
 	int totalWaitingTime = 0;
 	int i;
@@ -51,6 +52,24 @@ void customerQueueTest(int n_cust) {
 		comparisonWay = round;
 		current_time = 0;
 		totalWaitingTime = 0;
+		last_process_time = 0;
+
+
+
+		/* 
+		while queue is not empty
+		c = queue.peekMax();
+		if current_time = c.PT() - c.AT();
+			q.extractmax()
+			cout << customer is served 
+		cout << customer arived ...
+		WT = current_time - c.AT();
+		if WT == 0	-> cout << no wait time
+		else		-> cout << customer served at current_time 
+		
+		
+
+		 */
 
 		queue.insert(custList[0]);
 

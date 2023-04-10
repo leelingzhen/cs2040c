@@ -8,8 +8,8 @@ using namespace std;
 
 int main() {
   string line;
-  ifstream myfile("example1.txt");
-  // ifstream myfile("example2.txt");
+  // ifstream myfile("example1.txt");
+  ifstream myfile("example2.txt");
   // ifstream myfile("example3.txt");
   // ifstream myfile("example4.txt");
   // ifstream myfile("example5.txt");

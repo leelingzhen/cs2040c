@@ -1,5 +1,4 @@
 #pragma once
-
 #ifndef SIMPLELINKEDLISTTEMPLATEHPP
 #define SIMPLELINKEDLISTTEMPLATEHPP
 
@@ -55,6 +54,11 @@ template <class T>
 bool List<T>::exist(T n) {
 
 	// modify this
+	for (start(); not end(); next()){
+		if (current() == n) {
+			return true;
+		}
+	}
 	return false; 
 }
 

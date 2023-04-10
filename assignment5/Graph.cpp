@@ -1,7 +1,7 @@
 #include "Graph.h"
 //uncomment this to include your own "heap.h"
 //we will assume that you use the same code in your previous assignment
-//#include "heap.h"
+#include "heap.h"
 
 std::ostream& operator<<(std::ostream& os, nodeWeightPair const& n) {
 	return os << " (idx:" << n._node << " w:" << n._weight << ")";
@@ -17,8 +17,50 @@ Graph::Graph(int n)
 int Graph::shortestDistance(int s, int d)
 {
 	// implement your code here
+	Heap<nodeWeightPair> min_heap;
+	int visited[100] = {}; // too lazy to use std::vector or idk if im allowed to use it
+
+	List<nodeWeightPair>* neighbour_list;
+
+	// push soure node to minheap first
+	min_heap.insert(nodeWeightPair(s, 0));
+
+
+	// searching base on min_heap
+	// "bfs" with PQ
+	while (!min_heap.empty()){
+
+		auto node = min_heap.extractMax();	
+		int i = node.nodeIndex();
+		int w = node.weight();
+
+		if (visited[i]){
+			cout << "visited" << endl;
+			continue;
+		}
+
+		if (node.nodeIndex() == d) {
+			return - node.weight();
+		}
+
+		visited[i] = 1;
+
+		neighbour_list = &_al[node.nodeIndex()];
+
+		for (neighbour_list->start(); !neighbour_list->end(); neighbour_list->next()) {
+			auto neighbour = neighbour_list->current();
+			nodeWeightPair insert_node = nodeWeightPair(neighbour.nodeIndex(), node.weight() - neighbour.weight());
+			min_heap.insert(insert_node);
+		}
+		min_heap.printHeapArray();
+
+	}
+
+
 	return -1;
 }
+
+
 void Graph::addEdge(int s, int d, int w)
 {
 	_al[s].insertHead(nodeWeightPair(d, w));

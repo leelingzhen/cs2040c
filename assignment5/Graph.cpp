@@ -18,13 +18,15 @@ int Graph::shortestDistance(int s, int d)
 {
 	// implement your code here
 	Heap<nodeWeightPair> min_heap;
-	int visited[100] = {}; // too lazy to use std::vector or idk if im allowed to use it
+	int* visited = new int[_nv]();
+	int shortest_distance = -1;
 
 	List<nodeWeightPair>* neighbour_list;
 
 	// push soure node to minheap first
 	min_heap.insert(nodeWeightPair(s, 0));
 
+	cout << "Path:";
 
 	// searching base on min_heap
 	// "bfs" with PQ
@@ -35,12 +37,15 @@ int Graph::shortestDistance(int s, int d)
 		int w = node.weight();
 
 		if (visited[i]){
-			cout << "visited" << endl;
+			// cout << "visited" << endl;
 			continue;
 		}
 
+		cout << " "<< i ;
 		if (node.nodeIndex() == d) {
-			return - node.weight();
+
+			shortest_distance = - node.weight();
+			break;
 		}
 
 		visited[i] = 1;
@@ -49,15 +54,18 @@ int Graph::shortestDistance(int s, int d)
 
 		for (neighbour_list->start(); !neighbour_list->end(); neighbour_list->next()) {
 			auto neighbour = neighbour_list->current();
-			nodeWeightPair insert_node = nodeWeightPair(neighbour.nodeIndex(), node.weight() - neighbour.weight());
+			nodeWeightPair insert_node = nodeWeightPair(neighbour.nodeIndex(), w - neighbour.weight());
 			min_heap.insert(insert_node);
 		}
-		min_heap.printHeapArray();
+		// min_heap.printHeapArray();
 
 	}
 
 
-	return -1;
+	cout << endl;
+
+	delete [] visited;
+	return shortest_distance;
 }
 
 

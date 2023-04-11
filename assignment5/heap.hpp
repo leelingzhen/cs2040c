@@ -19,7 +19,7 @@ int Heap<T>::_larger_child_index (int i) {
     int right = 2 * i + 2;
     if (_heap[left] > _heap[right] and left < _n) {
 	return left;
-    } else if (_heap[right] > _heap[left] and right < _n){
+    } else if (right < _n){
 	return right;
     } else {
 	return -1;
@@ -49,6 +49,7 @@ void Heap<T>::_bubbleUp(int index) {
 template <class T>
 void Heap<T>::_bubbleDown(int index) {
     int child = _larger_child_index(index);
+
 
     while (_heap[child] > _heap[index] and child != -1){
 	_swap(child, index);

@@ -18,9 +18,17 @@ int Graph::shortestDistance(int s, int d)
 {
 	// implement your code here
 	Heap<nodeWeightPair> min_heap;
-	int* visited = new int[_nv]();
+	int* dist = new int [_nv]();
+
+	for (int i = 0; i <_nv; i++) {
+		dist[i] = -2147483647;
+	}
+	dist[s] = 0;
+
+	int* parents = new int[_nv]();
+	parents[s] = s;
+	
 	int shortest_distance = -1;
-	int shortest_path;
 
 	List<nodeWeightPair>* neighbour_list;
 
@@ -28,71 +36,85 @@ int Graph::shortestDistance(int s, int d)
 	min_heap.insert(nodeWeightPair(s, 0));
 
 	// searching based on min_heap
-	// "bfs" with PQ
-	/* 
-	 * to print path, can store the entire path of the node in the int nodeindex
-	 * the current node will be obtained from the last digit in node index
-	 * for eg nodeIndex = 14568
-	 * path traversed so far 1 -> 4 -> 5 -> 6 -> 8 
-	 * current node = 8
-	 *
-	* */
+	// searching with PQ
 	while (!min_heap.empty()){
 
 		auto node = min_heap.extractMax();	
-		int path = node.nodeIndex();
-		int i = path % 10;
+		int u = node.nodeIndex();
 		int w = node.weight();
 
-		if (visited[i]){
-			// cout << "visited" << endl;
+		if (w < dist[u]){
 			continue;
 		}
 
-		if (i == d) {
+		if (u == d) {
 
-			shortest_path = path;
 			shortest_distance = - w;
 			break;
 		}
 
-		visited[i] = 1;
-
-		neighbour_list = &_al[i];
+		neighbour_list = &_al[u];
 
 		for (neighbour_list->start(); !neighbour_list->end(); neighbour_list->next()) {
 			auto neighbour = neighbour_list->current();
-			int new_path = path * 10 + neighbour.nodeIndex();
-			nodeWeightPair insert_node = nodeWeightPair(new_path, w - neighbour.weight());
+			int v = neighbour.nodeIndex();
+			int v_weight = w - neighbour.weight();
+			if (dist[v] > v_weight) {
+				continue;
+			}
+			dist[v] = v_weight;
+			parents[v] = u;
+			nodeWeightPair insert_node = nodeWeightPair(v, v_weight);
 			min_heap.insert(insert_node);
 		}
+
+
+	}
+
+
+	// for (int i = 0; i < _nv; i++) {
+	// 	cout << i << " ";
+	// }
+	// cout << endl;
+	//
+	// for (int i = 0; i < _nv; i++) {
+	// 	cout << parents[i] << " ";
+	// }
+	// cout << endl;
+	// for (int i = 0; i < _nv; i++) {
+	// 	cout << dist[i] << " ";
+	// }
+	// cout << endl;
+
+
+
+	if (shortest_distance != - 1){
+		int path_size = 0;
+		for (int p = d; p != parents[p]; p = parents[p]){
+			path_size ++;
+		}
+		path_size++;
+		// cout << endl;
+		// cout << "path size: " << path_size<< endl;
+
+		int* path = new int[path_size] {s};
+		for (int p = d, i = path_size - 1; p != parents[p]; p = parents[p], i--) {
+			path[i] = p;
+		}
+
+		cout << "Path:";
+		for (int i = 0; i < path_size; i++) {
+			cout <<" "<< path[i];
+		}
+		cout << endl;
+
+		delete [] path;
 	}
 
 
 	// printing shortest path
-	if (shortest_distance != -1) {
-		int temp = shortest_path;
-		int size_path = 0;
-		while (temp) {
-			size_path++;
-			temp /= 10;
-		}
-		int *r_path = new int[size_path];
-		for (int i = 0; i < size_path; i++) {
-			r_path[i] = shortest_path % 10;
-			shortest_path /= 10;
-		}
-		cout << "Path:";
-		if (s == 0) {
-			cout << " " << 0;
-		}
-		for (int i = size_path - 1; i >= 0; i--){
-			cout << " " << r_path[i];
-		}
-		cout << endl;
-		delete [] r_path;
-	}
-	delete [] visited;
+	delete [] dist;
+	delete [] parents;
 	return shortest_distance;
 }
 
